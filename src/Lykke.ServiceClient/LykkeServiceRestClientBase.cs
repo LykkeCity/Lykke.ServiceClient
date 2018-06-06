@@ -46,6 +46,12 @@ namespace Lykke.ServiceClient {
             return result.ToObject<TResponse>();
         }
 
+        protected async Task PostDataAsync(string actionName, object data = null)
+        {
+            var action = new PostAction(actionName, data);
+            await ExecuteAsync(action);
+        }
+
         protected async Task PutDataAsync(string actionName, object data = null) {
             var action = new PutAction(actionName, data);
             await ExecuteAsync(action);
@@ -62,10 +68,16 @@ namespace Lykke.ServiceClient {
             return result.ToObject<FileModel>();
         }
 
-        protected async Task<TResponse> PostFileAsync<TResponse>(string actionName, string name, FileModel file) {
+        protected async Task<TResponse> PostFileAsync<TResponse>(string actionName, string name, FileModel file)
+        {
             var action = new PostFileAction(actionName, name, file);
             var result = await ExecuteAsync(action);
             return result.ToObject<TResponse>();
+        }
+
+        protected async Task PostFileAsync(string actionName, string name, FileModel file) {
+            var action = new PostFileAction(actionName, name, file);
+            await ExecuteAsync(action);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Lykke.ServiceClient {
     public static class RestActionExecutionContextExtensions {
@@ -8,7 +9,14 @@ namespace Lykke.ServiceClient {
         }
 
         public static string VersionToUri(this IRestActionExecutionContext executionContext, string action) {
-            return $"{executionContext.Resource.Prefix}/{executionContext.Resource.Version}/{executionContext.Resource.Name}/{action}".Trim('/');
+            var items = new[] {
+                executionContext.Resource.Prefix,
+                executionContext.Resource.Version,
+                executionContext.Resource.Name
+            }.Where(x => !string.IsNullOrEmpty(x));
+
+            var baseUrl = string.Join("/", items);
+            return $"{baseUrl}/{action}";
         }
 
         public static T ToObject<T>(this IRestActionResult actionResult, T defautValue = default(T)) {
