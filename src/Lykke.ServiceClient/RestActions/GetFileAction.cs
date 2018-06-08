@@ -15,8 +15,8 @@ namespace Lykke.ServiceClient {
             (string.Empty, async response => {
 
                     var file = new FileModel {
-                        Name = response.Content.Headers.ContentDisposition.FileName,
-                        ContentType = response.Content.Headers.ContentType.MediaType,
+                        Name = response.Content.Headers?.ContentDisposition?.FileName,
+                        ContentType = response.Content.Headers?.ContentType?.MediaType,
                         Content = await response.Content.ReadAsByteArrayAsync()
                     };
 
