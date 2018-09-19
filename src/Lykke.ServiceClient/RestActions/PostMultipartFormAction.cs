@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-
+using Common;
 using Newtonsoft.Json;
 
 namespace Lykke.ServiceClient {
@@ -28,8 +28,8 @@ namespace Lykke.ServiceClient {
                         content.Add(fileContent, item.Key, fileModel.Name);
                         break;
 
-                    default:
-                        var jsonContent = new StringContent(JsonConvert.SerializeObject(Data), Encoding.UTF8, "application/json");
+                    case object dataTransferObject:
+                        var jsonContent = new StringContent(dataTransferObject.ToJson(), Encoding.UTF8, "application/json");
                         content.Add(jsonContent, item.Key);
                         break;
                 }
